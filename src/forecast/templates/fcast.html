@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method='POST' action='fcast/add/'> {% csrf_token %}
+<input type='text' name='addme'> </input>
+<button type='submit'>add</button>
+</form>
+<table border=solid 1px;>
+
+<th>Room</th>
+<th>{{d1}}</th>
+<th>{{d2}}</th>
+<th>{{d3}}</th>
+<th>{{d4}}</th>
+<th>{{d5}}</th>
+{% for room in forecastOBJ  %}
+<tr>
+
+<td><a href = "fcast/{{room.roomno}}">{{room.roomno}}</a></td>
+<td>{{room.day1lbs}}</td>
+<td>{{room.day2lbs}}</td>
+<td>{{room.day3lbs}}</td>
+<td>{{room.day4lbs}}</td>
+<td>{{room.day5lbs}}</td>
+
+
+
+
+
+
+</tr>
+
+
+{% endfor %}
+</table>
+{% endblock content %}
+
+{% comment %} {% for totalz in forecastOBJ %}
+<p>{{test1}}</p>
+<p>{{test2}}</p>
+<p>{{test3}}</p>
+<p>{{test4}}</p>
+
+{% endfor %} {% endcomment %}

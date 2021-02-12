@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<form method='POST'> {% csrf_token %}
+    
+    {% comment %} {{newform}} {% endcomment %}
+    {% for f in form %}
+
+        {{form[1]}}
+    {% endfor %}
+    <button type="submit">Update</button>
+</form>
+
+{% endblock content %}

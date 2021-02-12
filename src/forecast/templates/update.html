@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    
+    {% comment %} {{form}} {% endcomment %}
+    <div>
+    {% comment %} {{form2}} {% endcomment %}
+    </div>
+    
+    {% for obj in obj3%}
+        
+    <div>
+    <form method='POST'> {% csrf_token %}
+    {% comment %} this one {{f}} {% endcomment %}
+    <label for='roomno'>Room:</label>
+
+    <input type='text' id='roomno' name='roomno' value={{obj.roomno}}></input>
+    <input type='text' name='day1' value={{obj.day1lbs}}></input>
+    <input type='text' name='day2' value={{obj.day2lbs}}></input>
+    <input type='text' name='day3' value={{obj.day3lbs}}></input>
+
+    <button onclick= "alert('success')" type="submit">Update</button>
+
+    </form>
+    </div>
+<div>
+   
+
+    {% comment %} <div>
+    <form>
+    <input type='text' placeholder={{f.day1lbs}}>
+    <input type='text' placeholder={{f.day2lbs}}>
+    <input type='text' placeholder={{f.day3lbs}}>
+    </form>
+    </div>
+
+    <form>
+    <input type='text' placeholder={{f.day1lbs}}>
+    <input type='text' placeholder={{f.day2lbs}}>
+    <input type='text' placeholder={{f.day3lbs}}>
+    </form>
+     {% endcomment %}
+
+    {% endfor %}
+
+  
+
+
+{% endblock content %} 
