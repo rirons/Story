@@ -35,19 +35,15 @@ def currentf(request):
 
 
 def fcastedit(request):
-    # i = 0
-    # formz = []
-    # obj = get_object_or_404(Forecast,roomno = room)
-    # obj2 = get_object_or_404(Forecast,roomno = 88)
-    obj3 = Forecast.objects.all()
-    
-    # while i < len(obj3):
-    #     fz = ForecastForm(request.POST or None,instance=obj3[i])
-    #     formz.append(fz)
-    #     i += 1
-
-
-    if request.method == 'POST':
+    rmadd = request.POST.get('addroom')
+    obj3 = Forecast.objects.all() 
+    for evt in obj3:
+        if evt.updated != datetime.date.today():
+            for rec in obj3:
+                rec.day1lbs = rec.day2lbs
+                rec.day2lbs = rec.day3lbs
+                rec.day3lbs = 0
+    if request.method == 'POST' and rmadd == None:
         d1update= request.POST.get('day1')
         d2update= request.POST.get('day2')
         d3update= request.POST.get('day3')
@@ -55,8 +51,13 @@ def fcastedit(request):
         onetosave.day1lbs = d1update
         onetosave.day2lbs = d2update
         onetosave.day3lbs = d3update
-
+        onetosave.updated = datetime.date.today()
         onetosave.save()
+        return HttpResponseRedirect("/fcast/all")
+    if rmadd:
+        print(rmadd)
+        Forecast.objects.create(roomno = rmadd)
+        rmadd = None
         return HttpResponseRedirect("/fcast/all")
     template_name = 'update.html'
     context = {'obj3':obj3}

@@ -14,6 +14,7 @@ class Forecast(models.Model):
     lg5pct = models.IntegerField(default=0)
     med10pct = models.IntegerField(default=0)
     sm10pct = models.IntegerField(default=0)
+    updated = models.DateField(auto_now_add=True)
 
 
 # class Forecast1(models.Model):

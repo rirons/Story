@@ -25,6 +25,7 @@ SECRET_KEY = '!()7hegpy4p!vl!7!cp7b0ie%9v@o8wn7vv+mq6#_2j(@c4-b4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['rirons.pmi.local','localhost']
 ALLOWED_HOSTS = []
 
 

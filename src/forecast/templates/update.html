@@ -1,9 +1,29 @@
 {% extends 'base.html' %}
+
+{% block css %}
+<style>
+    .input-box{
+        background-color: cyan;
+        width: 33px;
+    }
+
+</style>
+{% endblock css %}
+    
+
 {% block content %}
 
     
     {% comment %} {{form}} {% endcomment %}
     <div>
+        <form method='POST'>{% csrf_token %}
+        <input type='text' name='addroom'></input>
+        <button type='submit'>Add room</button>
+    </form>
+    
+    </div>
+    <br>
+
     {% comment %} {{form2}} {% endcomment %}
     </div>
     
@@ -14,13 +34,14 @@
     {% comment %} this one {{f}} {% endcomment %}
     <label for='roomno'>Room:</label>
 
-    <input type='text' id='roomno' name='roomno' value={{obj.roomno}}></input>
+    <input type='text' id='roomno' class='input-box' name='roomno' value={{obj.roomno}}></input>
     <input type='text' name='day1' value={{obj.day1lbs}}></input>
     <input type='text' name='day2' value={{obj.day2lbs}}></input>
     <input type='text' name='day3' value={{obj.day3lbs}}></input>
-
     <button onclick= "alert('success')" type="submit">Update</button>
 
+        <p>{{obj.updated}}</p>
+    
     </form>
     </div>
 <div>
