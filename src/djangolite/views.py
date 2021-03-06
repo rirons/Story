@@ -23,31 +23,75 @@ def testodbc(request, cname=""):
     curs = c.execute(query3)
     res = c.fetchall()
     results = []
+    results_c = []
+    results_w = []
     crims = []
     whites = []
+    d1,d2,d3 = [],[],[]
     columns = [column[0] for column in curs.description]
     for row in res:
         results.append(dict(zip(columns, row)))
-
     i = 0
     while i < len(results):
         if results[i].get('type') == "Crimini":
-            crims.append(results[i].get('totalcasez'))
+            results_c.append(results[i])
             i += 1
         elif results[i].get('type') == "White":
-             whites.append(results[i].get('totalcasez'))
+             results_w.append(results[i])
              i += 1
         else:
             i += 1
+    dayz = []
+    for x in results_c:
+        if x['saledate'] in dayz:
+            pass
+        else:
+            dayz.append(x['saledate'])
+    # xi = 0
+    # while xi < len(results_c):
+    for x in results_c:
+        if x['saledate'] == dayz[0]:
+            d1 += [x]
+        elif x['saledate'] == dayz[1]:
+            d2 += [x]
+        elif x['saledate'] == dayz[2]:
+            d3 += [x]
+        else:
+            pass
 
-    total_crims = 0
-    for i in crims:
-        total_crims += i
+    
 
-    total_whites = 0
-    for i in whites:
-        total_whites += i
+        
+    template_name = 'testodbc.html'
+    #context = {'results':customers,'itemz':itemz}
+    context = {"resz":results_w, "resz_c":results_c,"day1":d1,"day2":d2,"day3":d3}
+    return render(request,template_name,context)
 
+
+       #if request.method == 'GET':
+        #return JsonResponse(results,safe=False)
+
+
+    ###############WORKING#############################
+    # i = 0
+    # while i < len(results):
+    #     if results[i].get('type') == "Crimini":
+    #         crims.append(results[i].get('totalcasez'))
+    #         i += 1
+    #     elif results[i].get('type') == "White":
+    #          whites.append(results[i].get('totalcasez'))
+    #          i += 1
+    #     else:
+    #         i += 1
+
+    # total_crims = 0
+    # for i in crims:
+    #     total_crims += i
+
+    # total_whites = 0
+    # for i in whites:
+    #     total_whites += i
+  ###############WORKING#############################
     # for index in range(len(results)):
     #     for key in results[index]:
     #         customers.append(results[index]['CustomerRef_FullName'])
@@ -55,11 +99,7 @@ def testodbc(request, cname=""):
 
     #if request.method == 'GET':
         #return JsonResponse(results,safe=False)
-    print(results[0])
-    template_name = 'testodbc.html'
-    #context = {'results':customers,'itemz':itemz}
-    context = {"resz":results, "crims":crims,"whites":whites,"ttlcrim":total_crims,"ttlwhites":total_whites}
-    return render(request,template_name,context)
+
 #####################################################################################################################
 #####################################################################################################################
 #####################################################################################################################
