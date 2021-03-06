@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import currentf,fcastedit,addroom,fcastall
+from .views import currentf,fcastedit,addroom,fcastall,testodbc
+from .email import sendSimpleEmail
 
 
 
@@ -26,5 +27,9 @@ urlpatterns = [
     # path('fcast/<str:room>',fcastedit),
     path('fcast/all',fcastedit),
     path('fcast/add/',addroom),
-    path('fcast-all',fcastall)
+    path('fcast-all',fcastall),
+    path('sendmail',sendSimpleEmail),
+    path('test',testodbc),
+    path('test/<str:cname>',testodbc)
+
 ]

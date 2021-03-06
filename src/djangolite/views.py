@@ -5,6 +5,47 @@ from datetime import date,timedelta
 import datetime
 from django.db.models import Avg, Max, Min, Sum
 from django.http import HttpResponseRedirect
+import json 
+import pyodbc
+from django.http.response import JsonResponse
+from .queries import getQuery,query2,query3
+
+def testodbc(request, cname=""):
+    #conn = pyodbc.connect('DRIVER={SQL Server Native Client 11.0};SERVER=acct-svr;DATABASE=quickbooks15_opensync2FF;UID=sa;PWD=')
+    conn = pyodbc.connect('DRIVER={SQL Server Native Client 11.0};SERVER=acct-svr;DATABASE=quickbooks15_opensync2;UID=sa;PWD=')
+    c = conn.cursor()   
+
+
+    customers = []
+    itemz = []
+    #curs = c.execute(getQuery(cname))
+    curs = c.execute(query3)
+    res = c.fetchall()
+    results = []
+
+    columns = [column[0] for column in curs.description]
+    for row in res:
+        results.append(dict(zip(columns, row)))
+
+
+
+    # for index in range(len(results)):
+    #     for key in results[index]:
+    #         customers.append(results[index]['CustomerRef_FullName'])
+    #         itemz.append(results[index]['Name'])
+
+    if request.method == 'GET':
+        return JsonResponse(results,safe=False)
+
+    template_name = 'testodbc.html'
+    #context = {'results':customers,'itemz':itemz}
+    context = {}
+    return render(request,template_name,context)
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
+
 
 def currentf(request):
     d1 = date.today()
@@ -37,13 +78,18 @@ def currentf(request):
 def fcastedit(request):
     rmadd = request.POST.get('addroom')
     obj3 = Forecast.objects.all() 
+    ###########################################DAY SHIFT###################################################################
     for evt in obj3:
-        if evt.updated != datetime.date.today():
+        if evt.shiftupdate != datetime.date.today():
             for rec in obj3:
                 rec.day1lbs = rec.day2lbs
                 rec.day2lbs = rec.day3lbs
                 rec.day3lbs = 0
+                rec.eclass = 'not-saved'
+                rec.shiftupdate = datetime.date.today()
+    ##########################################UPDATING A ROOMS' VALUES######################################################
     if request.method == 'POST' and rmadd == None:
+        print(request.POST.get('delcheckbox'))
         d1update= request.POST.get('day1')
         d2update= request.POST.get('day2')
         d3update= request.POST.get('day3')
@@ -52,13 +98,21 @@ def fcastedit(request):
         onetosave.day2lbs = d2update
         onetosave.day3lbs = d3update
         onetosave.updated = datetime.date.today()
-        onetosave.save()
+        onetosave.eclass = 'input-box'
+        if request.POST.get('delcheckbox') == None:
+            onetosave.save()
+        else:
+            onetosave.delete()
+        
         return HttpResponseRedirect("/fcast/all")
+
+    #########################################ADDING A ROOM###################################################################
     if rmadd:
-        print(rmadd)
-        Forecast.objects.create(roomno = rmadd)
+        Forecast.objects.create(roomno = rmadd,updated = datetime.date.today(),shiftupdate = datetime.date.today())
         rmadd = None
         return HttpResponseRedirect("/fcast/all")
+
+    #########################################################################################################################
     template_name = 'update.html'
     context = {'obj3':obj3}
     return render(request,template_name,context)
@@ -83,3 +137,8 @@ def fcastall(request):
     template_name = 'form2.html'
     context = {'newform':form}
     return render(request,template_name,context)
+
+
+
+
+    

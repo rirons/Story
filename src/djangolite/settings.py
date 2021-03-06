@@ -41,6 +41,22 @@ INSTALLED_APPS = [
     'forecast'
 ]
 
+
+EMAIL_HOST = 'smtp.ionos.com'
+
+EMAIL_HOST_USER = 'rirons@premiermushrooms.com'
+
+EMAIL_HOST_PASSWORD = 'Marvindon1!'
+
+EMAIL_PORT = '25'
+
+EMAIL_USE_TLS = False
+
+
+
+
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

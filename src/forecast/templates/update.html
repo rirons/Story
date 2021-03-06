@@ -3,8 +3,20 @@
 {% block css %}
 <style>
     .input-box{
-        background-color: cyan;
-        width: 33px;
+        background-color: green;
+        width: 45px;
+        height:45px;
+    }
+
+    .not-saved{
+
+        width: 45px;
+        height: 45px;
+    }
+
+    .move-over{
+        padding-left: 100px;
+
     }
 
 </style>
@@ -34,13 +46,21 @@
     {% comment %} this one {{f}} {% endcomment %}
     <label for='roomno'>Room:</label>
 
-    <input type='text' id='roomno' class='input-box' name='roomno' value={{obj.roomno}}></input>
-    <input type='text' name='day1' value={{obj.day1lbs}}></input>
-    <input type='text' name='day2' value={{obj.day2lbs}}></input>
-    <input type='text' name='day3' value={{obj.day3lbs}}></input>
+    <input type='text' class={{obj.eclass}} id='roomno' name='roomno' value={{obj.roomno}}></input>
+    <input type='text' class={{obj.eclass}} name='day1' value={{obj.day1lbs}}></input>
+    <input type='text' class={{obj.eclass}}  name='day2' value={{obj.day2lbs}}></input>
+    <input type='text' class={{obj.eclass}} name='day3' value={{obj.day3lbs}}></input>
+    
+    {% if obj.eclass != 'input-box' %}
     <button onclick= "alert('success')" type="submit">Update</button>
+    <span class='move-over'>
+        <input class='not-saved' type="checkbox" name='delcheckbox'></input>
+    </span>
+    {% endif %}
+        
+    
 
-        <p>{{obj.updated}}</p>
+        <p>Last updated: {{obj.updated}}</p>
     
     </form>
     </div>
