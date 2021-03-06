@@ -2,15 +2,34 @@
 
 
 {% block content %}
-    
 
-{% for res in results %}
-    <h1>{{res}}</h1> 
+
+
+<div class="row">
+    <div class="col-sm">
+{% for x in resz %}
+    <p>{{x.txndate}} {{x.totalcasez}}    {{x.process}}     {{x.size}}</p>
 {% endfor %}
-    
-{% for i in itemz %}
-    <h2>{{i}}</h2> 
-{% endfor %}
+    </div>
+
+    <div class="col-sm">
+
+        <h1>Crims</h1>    
+        {% for i in crims %}
+            <p>{{i}}</p> 
+        {% endfor %}
+        {{ttlcrim}}
+        <h1>Whites</h1>
+        {% for i in whites %}
+            <p>{{i}}</p> 
+        {% endfor %}
+        {{ttlwhites}}
+
+    </div>
+
+
+</div>
+
 
 {% endblock content %}
     

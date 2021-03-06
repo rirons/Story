@@ -44,7 +44,7 @@ query2 = """
 select itemtype,itemsize,itemprocess, sum(totalcases) as totalcasez from vproductinventory where invdate >= getdate()-1 and pickdate != '' group by itemsize,itemtype,itemprocess """
 
 query3 = """ 
-Select txndate, sum(totalcases) as totalcasez, sum(lbs) as totallbs, customfield4 as process,customfield5 as size,customfield6 as type from (
+Select CONVERT(VARCHAR,txndate,101) as saledate, sum(totalcases) as totalcasez, sum(lbs) as totallbs, customfield4 as process,customfield5 as size,customfield6 as type from (
 
 SELECT Name, SUM(CAST(Cases AS FLOAT)) as TotalCases,TxnDate,Lbs,customerref_fullname,customfield5,customfield4,customfield6 from (SELECT DISTINCT 
 quickbooks15_opensync2ff.dbo.ItemNonInventory.Name,quickbooks15_opensync2ff.dbo.ItemNonInventory.ListID,quickbooks15_opensync2ff.dbo.SalesOrder.customerref_fullname,

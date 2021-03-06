@@ -10,6 +10,7 @@ import pyodbc
 from django.http.response import JsonResponse
 from .queries import getQuery,query2,query3
 
+
 def testodbc(request, cname=""):
     #conn = pyodbc.connect('DRIVER={SQL Server Native Client 11.0};SERVER=acct-svr;DATABASE=quickbooks15_opensync2FF;UID=sa;PWD=')
     conn = pyodbc.connect('DRIVER={SQL Server Native Client 11.0};SERVER=acct-svr;DATABASE=quickbooks15_opensync2;UID=sa;PWD=')
@@ -43,21 +44,21 @@ def testodbc(request, cname=""):
     for i in crims:
         total_crims += i
 
-    print(total_crims)
-
-
+    total_whites = 0
+    for i in whites:
+        total_whites += i
 
     # for index in range(len(results)):
     #     for key in results[index]:
     #         customers.append(results[index]['CustomerRef_FullName'])
     #         itemz.append(results[index]['Name'])
 
-    if request.method == 'GET':
-        return JsonResponse(results,safe=False)
-
+    #if request.method == 'GET':
+        #return JsonResponse(results,safe=False)
+    print(results[0])
     template_name = 'testodbc.html'
     #context = {'results':customers,'itemz':itemz}
-    context = {}
+    context = {"resz":results, "crims":crims,"whites":whites,"ttlcrim":total_crims,"ttlwhites":total_whites}
     return render(request,template_name,context)
 #####################################################################################################################
 #####################################################################################################################
