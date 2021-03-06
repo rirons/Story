@@ -40,12 +40,11 @@ def getQuery(cname):
 	return query
 
 
-query2 = """select itemtype,itemsize,itemprocess, sum(totalcases) as totalcasez from vproductinventory where invdate >= getdate()-1 and pickdate != '' group by itemsize,itemtype,itemprocess """
+query2 = """
+select itemtype,itemsize,itemprocess, sum(totalcases) as totalcasez from vproductinventory where invdate >= getdate()-1 and pickdate != '' group by itemsize,itemtype,itemprocess """
 
 query3 = """ 
-
-
-Select sum(totalcases) as totalcasez, sum(lbs) as totallbs, customfield4 as process,customfield5 as size,customfield6 as type from (
+Select txndate, sum(totalcases) as totalcasez, sum(lbs) as totallbs, customfield4 as process,customfield5 as size,customfield6 as type from (
 
 SELECT Name, SUM(CAST(Cases AS FLOAT)) as TotalCases,TxnDate,Lbs,customerref_fullname,customfield5,customfield4,customfield6 from (SELECT DISTINCT 
 quickbooks15_opensync2ff.dbo.ItemNonInventory.Name,quickbooks15_opensync2ff.dbo.ItemNonInventory.ListID,quickbooks15_opensync2ff.dbo.SalesOrder.customerref_fullname,
@@ -58,4 +57,4 @@ quickbooks15_opensync2ff.dbo.SalesOrderLineDetail.ItemRef_ListID = quickbooks15_
  AND LEFT(quickbooks15_opensync2ff.dbo.ItemNonInventory.Name, 3) NOT IN ('000') and quickbooks15_opensync2ff.dbo.itemnoninventory.name not like ('0%') GROUP BY Name,TxnDate,ListID,
  quickbooks15_opensync2ff.dbo.SalesOrderLineDetail.Quantity,quickbooks15_opensync2ff.dbo.SalesOrder.customerref_fullname,quickbooks15_opensync2ff.dbo.ItemNonInventory.customfield4
  ,quickbooks15_opensync2ff.dbo.ItemNonInventory.customfield5,quickbooks15_opensync2ff.dbo.ItemNonInventory.customfield6) as TotalCz Group by Name,TxnDate,customfield4,customfield5,customfield6,Lbs,customerref_fullname) as g
- group by customfield4,customfield5,customfield6"""
+ group by txndate,customfield4,customfield5,customfield6"""

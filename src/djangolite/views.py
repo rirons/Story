@@ -22,10 +22,28 @@ def testodbc(request, cname=""):
     curs = c.execute(query3)
     res = c.fetchall()
     results = []
-
+    crims = []
+    whites = []
     columns = [column[0] for column in curs.description]
     for row in res:
         results.append(dict(zip(columns, row)))
+
+    i = 0
+    while i < len(results):
+        if results[i].get('type') == "Crimini":
+            crims.append(results[i].get('totalcasez'))
+            i += 1
+        elif results[i].get('type') == "White":
+             whites.append(results[i].get('totalcasez'))
+             i += 1
+        else:
+            i += 1
+
+    total_crims = 0
+    for i in crims:
+        total_crims += i
+
+    print(total_crims)
 
 
 
